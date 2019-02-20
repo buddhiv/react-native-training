@@ -1,95 +1,54 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- * @lint-ignore-every XPLATJSCOPYRIGHT1
- */
-
 import React, {Component} from 'react';
-import {View, Text, TextInput, Button, Alert, ActivityIndicator} from 'react-native';
-import ImagePicker from 'react-native-image-picker';
+import {StyleSheet, View, Button} from 'react-native';
+import FormComponent from "./FormComponent";
+import DictionaryComponent from "./DictionaryComponent";
 
+type Props = {};
 export default class App extends Component<Props> {
     constructor(props) {
         super(props);
 
         this.state = {
-            entry: '',
-            definitions: [],
-            loading: false
+            component: null
         }
     }
 
-    getDefinition = () => {
-        if (this.state.entry === '') {
-            Alert.alert('Invalid Entry');
-        } else {
-            this.setState({loading: true});
+    setMultiplier = () => {
+        this.setState({component: <FormComponent formTitle={"My Form Title"}/>});
+    };
 
-            let url = 'https://od-api.oxforddictionaries.com/api/v1/entries/en/' + this.state.entry;
-
-            fetch(url, {
-                method: 'GET',
-                headers: new Headers({
-                    'app_id': '41a42ddb', 'app_key': 'a12cb47260eac082c9515cf970636249'
-                }),
-            }).then((response) => {
-                this.setState({loading: false});
-
-                if (response.status === 200) {
-                    let result = JSON.parse(response._bodyText);
-                    let definitions = result.results[0].lexicalEntries[0].entries[0].senses;
-
-                    this.setState({definitions: definitions});
-                } else {
-                    this.setState({definitions: []});
-                    Alert.alert('Invalid Entry');
-                }
-            });
-        }
+    setDictionary = () => {
+        this.setState({component: <DictionaryComponent/>});
     };
 
     render() {
         return (
-            <View style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: 20
-            }}>
+            <View style={styles.container}>
                 <View style={{
-                    marginBottom: 30
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+                    marginTop: 100
                 }}>
-                    <Text style={{fontSize: 20}}>Your Mini Dictionary</Text>
+                    <Button title={'Multiplier'} onPress={this.setMultiplier}/>
+                    <Button title={'Dictionary'} onPress={this.setDictionary}/>
                 </View>
-                <View style={{flexDirection: 'row'}}>
-                    <TextInput style={{
-                        height: 40,
-                        borderColor: 'gray',
-                        borderWidth: 1,
-                        width: 200
-                    }} value={this.state.entry} onChangeText={(value) => {
-                        this.setState({entry: value})
-                    }}/>
-                    <Button title={'FIND'} onPress={this.getDefinition}/>
-                </View>
-                <View style={{
-                    marginTop: 20
-                }}>
-                    {this.state.loading ? <View>
-                        <ActivityIndicator size="large" color="#0000ff"/>
-                    </View> : <View>
-                        {
-                            this.state.definitions.map((definition) => {
-                                return <Text>{definition.definitions[0]}</Text>
-                            })
-                        }
-                    </View>}
 
-                </View>
+                {this.state.component}
+
             </View>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#F5FCFF',
+    },
+    text_input: {
+        width: 150,
+        height: 40,
+        borderColor: 'black',
+        borderWidth: 1
+    }
+});

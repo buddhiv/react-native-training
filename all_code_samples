@@ -1,0 +1,388 @@
+//with only the text label and text field
+
+import React, {Component} from 'react';
+import {StyleSheet, View, TextInput, Text} from 'react-native';
+
+type Props = {};
+export default class App extends Component<Props> {
+    render() {
+        return (
+            <View style={styles.container}>
+                <Text>My first content</Text>
+                <TextInput style={styles.text_input}></TextInput>
+            </View>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
+    },
+    text_input: {
+        width: 150,
+        height: 40,
+        borderColor: 'black',
+        borderWidth: 1
+    }
+});
+
+//with two way binding for the text field
+import React, {Component} from 'react';
+import {StyleSheet, View, TextInput, Text} from 'react-native';
+
+type Props = {};
+export default class App extends Component<Props> {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            text: ''
+        };
+    }
+
+    changeText = (input) => {
+        this.setState({text: input});
+    };
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <Text>My first content</Text>
+                <TextInput style={styles.text_input} value={this.state.text} onChangeText={this.changeText}></TextInput>
+            </View>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
+    },
+    text_input: {
+        width: 150,
+        height: 40,
+        borderColor: 'black',
+        borderWidth: 1
+    }
+});
+
+//after creating a component for the form
+import React, {Component} from 'react';
+import {StyleSheet, View, TextInput, Text} from 'react-native';
+import FormComponent from "./FormComponent";
+
+type Props = {};
+export default class App extends Component<Props> {
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <FormComponent formTitle={"My Form Title"}/>
+            </View>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
+    },
+    text_input: {
+        width: 150,
+        height: 40,
+        borderColor: 'black',
+        borderWidth: 1
+    }
+});
+
+import React, {Component} from 'react';
+import {StyleSheet, View, TextInput, Text} from 'react-native';
+
+type Props = {};
+export default class FormComponent extends Component<Props> {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            text: ''
+        };
+    }
+
+    changeText = (input) => {
+        this.setState({text: input});
+    };
+
+    render() {
+        return (
+            <View>
+                <Text>{this.props.formTitle}</Text>
+                <TextInput style={styles.text_input} value={this.state.text} onChangeText={this.changeText}></TextInput>
+            </View>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    text_input: {
+        width: 150,
+        height: 40,
+        borderColor: 'black',
+        borderWidth: 1
+    }
+});
+
+//with two inputs and calculation button
+import React, {Component} from 'react';
+import {StyleSheet, View, TextInput, Text, Alert} from 'react-native';
+
+type Props = {};
+export default class FormComponent extends Component<Props> {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            value: 0,
+            multiplier: 0,
+            result: 0
+        };
+    }
+
+    handleValueChange = (input) => {
+        let result = input * this.state.multiplier;
+
+        this.setState({result: result, value: input});
+    };
+
+    handleMultiplierChange = (input) => {
+        let result = input * this.state.value;
+
+        this.setState({result: result, multiplier: input});
+    };
+
+    render() {
+        return (
+            <View>
+                <Text style={styles.result_font}>{this.props.formTitle}</Text>
+                <View style={styles.flex_row}>
+                    <View style={styles.flex_column}>
+                        <Text>Value</Text>
+                        <TextInput style={styles.text_input} value={this.state.value}
+                                   onChangeText={this.handleValueChange}/>
+                    </View>
+                    <View style={styles.flex_column}>
+                        <Text>Multiplier</Text>
+                        <TextInput style={styles.text_input} value={this.state.multiplier}
+                                   onChangeText={this.handleMultiplierChange}/>
+                    </View>
+                </View>
+                <Text style={styles.result_font}>Result : {this.state.result}</Text>
+            </View>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    flex_row: {
+        flexDirection: 'row'
+    },
+    flex_column: {
+        flexDirection: 'column'
+    },
+    text_input: {
+        width: 150,
+        height: 40,
+        borderColor: 'black',
+        borderWidth: 1
+    },
+    result_font: {
+        fontSize: 20
+    }
+});
+
+//dictionary with only UI
+import React, {Component} from 'react';
+import {View, Text, TextInput, Button} from 'react-native';
+
+export default class DictionaryComponent extends Component<Props> {
+    state = {
+        entry: '',
+    };
+
+    render() {
+        return (
+            <View style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: 20
+            }}>
+                <View style={{
+                    marginBottom: 30
+                }}>
+                    <Text style={{fontSize: 20}}>Your Mini Dictionary</Text>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                    <TextInput style={{
+                        height: 40,
+                        borderColor: 'gray',
+                        borderWidth: 1,
+                        width: 200
+                    }} value={this.state.entry} onChangeText={(value) => {
+                        this.setState({entry: value})
+                    }}/>
+                    <Button title={'FIND'}/>
+                </View>
+            </View>
+        );
+    }
+}
+
+
+//dictionary with full function
+import React, {Component} from 'react';
+import {View, Text, TextInput, Button, Alert, ActivityIndicator} from 'react-native';
+
+export default class DictionaryComponent extends Component<Props> {
+    state = {
+        entry: '',
+        definitions: [],
+        loading: false
+    };
+
+    getDefinition = () => {
+        if (this.state.entry === '') {
+            Alert.alert('Invalid Entry');
+        } else {
+            this.setState({loading: true});
+
+            let url = 'https://od-api.oxforddictionaries.com/api/v1/entries/en/' + this.state.entry;
+
+            fetch(url, {
+                method: 'GET',
+                headers: new Headers({
+                    'app_id': '41a42ddb', 'app_key': 'a12cb47260eac082c9515cf970636249'
+                }),
+            }).then((response) => {
+                this.setState({loading: false});
+
+                if (response.status === 200) {
+                    let result = JSON.parse(response._bodyText);
+                    let definitions = result.results[0].lexicalEntries[0].entries[0].senses;
+
+                    this.setState({definitions: definitions});
+                } else {
+                    this.setState({definitions: []});
+                    Alert.alert('Invalid Entry');
+                }
+            });
+        }
+    };
+
+    render() {
+        return (
+            <View style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: 20
+            }}>
+                <View style={{
+                    marginBottom: 30
+                }}>
+                    <Text style={{fontSize: 20}}>Your Mini Dictionary</Text>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                    <TextInput style={{
+                        height: 40,
+                        borderColor: 'gray',
+                        borderWidth: 1,
+                        width: 200
+                    }} value={this.state.entry} onChangeText={(value) => {
+                        this.setState({entry: value})
+                    }}/>
+                    <Button title={'FIND'} onPress={this.getDefinition}/>
+                </View>
+                <View style={{
+                    marginTop: 20
+                }}>
+                    {this.state.loading ? <View>
+                        <ActivityIndicator size="large" color="#0000ff"/>
+                    </View> : <View>
+                        {
+                            this.state.definitions.map((definition) => {
+                                return <Text>{definition.definitions[0]}</Text>
+                            })
+                        }
+                    </View>}
+
+                </View>
+            </View>
+        );
+    }
+}
+
+//app.js containing both apps
+import React, {Component} from 'react';
+import {StyleSheet, View, Button} from 'react-native';
+import FormComponent from "./FormComponent";
+import DictionaryComponent from "./DictionaryComponent";
+
+type Props = {};
+export default class App extends Component<Props> {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            component: null
+        }
+    }
+
+    setMultiplier = () => {
+        this.setState({component: <FormComponent formTitle={"My Form Title"}/>});
+    };
+
+    setDictionary = () => {
+        this.setState({component: <DictionaryComponent/>});
+    };
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <View style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+                    marginTop: 100
+                }}>
+                    <Button title={'Multiplier'} onPress={this.setMultiplier}/>
+                    <Button title={'Dictionary'} onPress={this.setDictionary}/>
+                </View>
+
+                {this.state.component}
+
+            </View>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#F5FCFF',
+    },
+    text_input: {
+        width: 150,
+        height: 40,
+        borderColor: 'black',
+        borderWidth: 1
+    }
+});
